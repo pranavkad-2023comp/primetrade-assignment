@@ -31,7 +31,7 @@ const options = {
     },
     security: [{ bearerAuth: [] }],
   },
-  apis: ['./src/routes/v1/*.ts'],
+  apis: ['./dist/routes/v1/*.js', './src/routes/v1/*.ts'], // ← CHANGED
 };
 
 export const setupSwagger = (app: Express): void => {
