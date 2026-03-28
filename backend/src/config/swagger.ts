@@ -10,6 +10,16 @@ const options = {
       version: '1.0.0',
       description: 'Scalable REST API with JWT Auth & Role-Based Access',
     },
+    servers: [
+      {
+        url: 'https://primetrade-assignment-production-c054.up.railway.app',
+        description: 'Production Server',
+      },
+      {
+        url: 'http://localhost:5000',
+        description: 'Local Development',
+      },
+    ],
     components: {
       securitySchemes: {
         bearerAuth: {
