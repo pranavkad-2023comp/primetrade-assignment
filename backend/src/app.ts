@@ -3,13 +3,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
 import connectDB from './config/db';
 import { setupSwagger } from './config/swagger';
 import authRoutes from './routes/v1/auth.routes';
-import { errorHandler } from './middlewares/error.middleware';
 import taskRoutes from './routes/v1/task.routes';
-import rateLimit from 'express-rate-limit';
-import mongoSanitize from 'express-mongo-sanitize';
+import { errorHandler } from './middlewares/error.middleware';
 
 dotenv.config();
 
@@ -25,8 +24,12 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.use(mongoSanitize());
-app.use('/api/v1/auth', rateLimit({ windowMs: 15 * 60 * 1000, max: 10, message: { success: false, message: 'Too many requests, try again later' } }));
+// Rate limiting on auth only
+app.use('/api/v1/auth', rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { success: false, message: 'Too many requests, try again later' }
+}));
 
 // Swagger
 setupSwagger(app);
