@@ -16,11 +16,13 @@ const PORT = process.env.PORT || 5000;
 
 connectDB();
 
-app.use(helmet());
+// Disable CSP for Swagger UI to work
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
+// Swagger BEFORE routes
 setupSwagger(app);
 
 app.use('/api/v1/auth', authRoutes);
